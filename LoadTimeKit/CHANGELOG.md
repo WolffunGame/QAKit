@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.1.0] - 2026-10-30
+## [1.0.2] - 2026-10-30
 - `errorList` in the result: every distinct Error / Exception / Assert before Ready with `type`, `ms` since T0,
   `message` (≤ 600 chars), `stack` (≤ 800 chars) and `count`; at most 15 entries, the rest in `errorsDropped`.
 - Errors are timed off the main thread with a Stopwatch (log callbacks run on any thread).

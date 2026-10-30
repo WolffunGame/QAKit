@@ -1,6 +1,6 @@
 {
   "name": "com.qa.loadtimekit",
-  "version": "1.1.0",
+  "version": "1.0.2",
   "displayName": "QA LoadTimeKit",
   "description": "Measures cold-boot load time on device for QA/staging builds of any game: process start, splash, every scene load/unload, until the game marks Ready (Home or Gameplay usable). Writes one RESULT line plus a timeline to its own logcat tag (LoadTimeKit) and one JSON line per launch to a file on the device. No game references, no dependencies. Compiled out when PRODUCTION or QAKIT_DISABLED is defined.",
   "unity": "2021.3",
