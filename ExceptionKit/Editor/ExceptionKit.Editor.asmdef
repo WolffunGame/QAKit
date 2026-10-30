@@ -1,0 +1,21 @@
+{
+    "name": "ExceptionKit.Editor",
+    "rootNamespace": "QA.ExceptionKit.Editor",
+    "references": [
+        "ExceptionKit.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "!PRODUCTION",
+        "!QAKIT_DISABLED"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

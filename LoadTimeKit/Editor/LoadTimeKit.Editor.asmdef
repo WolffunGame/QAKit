@@ -1,0 +1,21 @@
+{
+    "name": "LoadTimeKit.Editor",
+    "rootNamespace": "QA.LoadTimeKit.Editor",
+    "references": [
+        "LoadTimeKit.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "!PRODUCTION",
+        "!QAKIT_DISABLED"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
