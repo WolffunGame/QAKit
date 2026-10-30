@@ -1,0 +1,21 @@
+{
+    "name": "PerfKit.Editor",
+    "rootNamespace": "QA.PerfKit.Editor",
+    "references": [
+        "PerfKit.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "!PRODUCTION",
+        "!QAKIT_DISABLED"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

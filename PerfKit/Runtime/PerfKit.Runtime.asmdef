@@ -1,0 +1,17 @@
+{
+    "name": "PerfKit.Runtime",
+    "rootNamespace": "QA.PerfKit",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "!PRODUCTION",
+        "!QAKIT_DISABLED"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

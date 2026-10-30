@@ -1,0 +1,11 @@
+{
+  "name": "com.qa.perfkit",
+  "version": "0.3.0",
+  "displayName": "QA PerfKit",
+  "description": "Frame-drop context for QA/staging builds of any game: when the flag file perfkit.on exists, logs each dropped frame with the game's scene and context, its CPU/render/GPU frame times and memory, plus a heartbeat, to its own logcat tag (PerfKit). Dormant otherwise: no per-frame cost. No game references, no dependencies. Compiled out when PRODUCTION or QAKIT_DISABLED is defined.",
+  "unity": "2021.3",
+  "dependencies": {},
+  "author": {
+    "name": "QA"
+  }
+}

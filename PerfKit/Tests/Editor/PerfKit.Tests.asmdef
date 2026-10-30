@@ -1,0 +1,33 @@
+{
+    "name": "PerfKit.Tests",
+    "rootNamespace": "QA.PerfKit.Tests",
+    "references": [
+        "PerfKit.Runtime",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS",
+        "!PRODUCTION",
+        "!QAKIT_DISABLED",
+        "PERFKIT_HAS_TEST_FRAMEWORK"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.test-framework",
+            "expression": "1.0.0",
+            "define": "PERFKIT_HAS_TEST_FRAMEWORK"
+        }
+    ],
+    "noEngineReferences": false
+}
