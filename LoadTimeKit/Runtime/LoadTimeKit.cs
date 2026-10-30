@@ -27,8 +27,12 @@ namespace QA.LoadTimeKit
         public const float AFTER_READY_SECONDS = 20f;
 
         private const int MAX_MARKS = 200;
-        private const int MAX_ERROR_CHARS = 200;
-        private const long MAX_FILE_BYTES = 256 * 1024;
+        private const int MAX_ERROR_CHARS = 600;
+        private const int MAX_STACK_CHARS = 800;
+        /// <summary>Distinct errors kept per launch; the rest only count in <see cref="LoadTimeResult.errorsDropped"/>.</summary>
+        public const int MAX_ERRORS = 15;
+        // Rotation deletes the file and restarts the run counter, so keep it rare even with error-heavy launches.
+        private const long MAX_FILE_BYTES = 2 * 1024 * 1024;
         private const string HOST_OBJECT_NAME = "[LoadTimeKit]";
 
         /// <summary>Raised once per launch at Ready (or timeout), main thread.</summary>
@@ -42,7 +46,11 @@ namespace QA.LoadTimeKit
 
         private static readonly List<LoadTimeMark> Marks = new List<LoadTimeMark>();
         private static readonly object ErrorLock = new object();
+        private static readonly List<LoadTimeError> Errors = new List<LoadTimeError>();
+        private static readonly HashSet<string> DroppedMessages = new HashSet<string>();
+        private const int MAX_DROPPED_TRACKED = 200;
         private static int _errors;
+        private static int _errorsDropped;
         private static string _firstError;
         private static double _readyRealtime;
 
@@ -59,7 +67,10 @@ namespace QA.LoadTimeKit
             lock (ErrorLock)
             {
                 _errors = 0;
+                _errorsDropped = 0;
                 _firstError = null;
+                Errors.Clear();
+                DroppedMessages.Clear();
             }
         }
 
@@ -205,6 +216,8 @@ namespace QA.LoadTimeKit
             {
                 result.errors = _errors;
                 result.firstError = _firstError;
+                result.errorList.AddRange(Errors);
+                result.errorsDropped = _errorsDropped;
             }
 
             result.marks.AddRange(Marks);
@@ -226,7 +239,21 @@ namespace QA.LoadTimeKit
             }
 
             if (r.firstError != null) LoadTimeOutput.Info($"first error: {r.firstError}");
+            for (int i = 0; i < r.errorList.Count; i++)
+            {
+                var e = r.errorList[i];
+                LoadTimeOutput.Info($"error {i + 1}/{r.errorList.Count} at {e.ms}ms [{e.type}] x{e.count}: {FirstLine(e.message)}");
+            }
+            if (r.errorsDropped > 0) LoadTimeOutput.Info($"errors dropped: {r.errorsDropped}");
         }
+
+        private static string FirstLine(string s)
+        {
+            int nl = s.IndexOf('\n');
+            return nl < 0 ? s : s.Substring(0, nl);
+        }
+
+        private static string Cap(string s, int max) => s == null ? "" : s.Length > max ? s.Substring(0, max) : s;
 
         private static string FormatMark(LoadTimeMark mark, int previousMs)
         {
@@ -273,11 +300,32 @@ namespace QA.LoadTimeKit
         {
             if (type != LogType.Error && type != LogType.Exception && type != LogType.Assert) return;
 
+            string message = Cap(condition, MAX_ERROR_CHARS);
             lock (ErrorLock)
             {
                 _errors++;
-                if (_firstError == null)
-                    _firstError = condition.Length > MAX_ERROR_CHARS ? condition.Substring(0, MAX_ERROR_CHARS) : condition;
+                if (_firstError == null) _firstError = message;
+
+                foreach (var known in Errors)
+                {
+                    if (known.message != message) continue;
+                    known.count++;
+                    return;
+                }
+                if (Errors.Count >= MAX_ERRORS)
+                {
+                    // Count distinct messages only; a repeating error must not inflate the number.
+                    if (DroppedMessages.Count < MAX_DROPPED_TRACKED && DroppedMessages.Add(message)) _errorsDropped++;
+                    return;
+                }
+                Errors.Add(new LoadTimeError
+                {
+                    type = type.ToString(),
+                    ms = LoadTimeClock.NowMsThreaded(),
+                    message = message,
+                    stack = Cap(stackTrace, MAX_STACK_CHARS),
+                    count = 1,
+                });
             }
         }
     }

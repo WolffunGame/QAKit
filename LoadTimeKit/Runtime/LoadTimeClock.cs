@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using UnityEngine;
 
 namespace QA.LoadTimeKit
@@ -22,6 +23,8 @@ namespace QA.LoadTimeKit
 
         private static double _initRealtime;
         private static double _processAgeAtInitMs;
+        private static int _msAtInit;
+        private static Stopwatch _stopwatch;
 
         public static void Init()
         {
@@ -32,9 +35,16 @@ namespace QA.LoadTimeKit
             if (usable) T0 = T0_PROCESS;
             else T0 = Application.isEditor ? T0_PLAY : T0_ENGINE;
             _processAgeAtInitMs = usable ? RawProcessAgeMs : 0;
+
+            _msAtInit = NowMs();
+            _stopwatch = Stopwatch.StartNew();
         }
 
         public static double SecondsSinceInit => Time.realtimeSinceStartupAsDouble - _initRealtime;
+
+        /// <summary>Same scale as <see cref="NowMs"/> but safe off the main thread (log callbacks):
+        /// <see cref="NowMs"/> reads <c>Time.realtimeSinceStartupAsDouble</c>, which Unity only allows on the main thread.</summary>
+        public static int NowMsThreaded() => _stopwatch == null ? -1 : _msAtInit + (int)_stopwatch.ElapsedMilliseconds;
 
         public static int NowMs()
         {

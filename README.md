@@ -14,5 +14,5 @@ Add to `Packages/manifest.json` (replace the tag as needed):
 
 ```json
 "com.qa.exceptionkit": "git@github.com:WolffunGame/QAKit.git?path=/ExceptionKit#1.0.0",
-"com.qa.loadtimekit": "git@github.com:WolffunGame/QAKit.git?path=/LoadTimeKit#1.0.0"
+"com.qa.loadtimekit": "git@github.com:WolffunGame/QAKit.git?path=/LoadTimeKit#1.1.0"
 ```

@@ -64,7 +64,9 @@ I LoadTimeKit: end marks=31
 Reading the numbers:
 - `run=1` is the first launch after install / clear data (usually slower: caches, first downloads). Compare like
   with like.
-- `errors>0` means something failed during boot (see `first error:`); that launch may be degraded.
+- `errors>0` means something failed during boot; that launch may be degraded. Each distinct error is logged as
+  `error i/n at <ms>ms [<type>] x<count>: <message>` and stored with its stack trace in `errorList` of the JSON
+  line (max 15, the rest counted in `errorsDropped`).
 - Cross-check T0 with Android's own number: `adb shell am start -W -n $PKG/<activity>` prints `TotalTime`
   (until the first frame, so it is shorter than `ready`).
 

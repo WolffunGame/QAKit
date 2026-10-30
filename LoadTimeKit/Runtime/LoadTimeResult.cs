@@ -14,6 +14,21 @@ namespace QA.LoadTimeKit
         public int frame;
     }
 
+    /// <summary>One Error / Exception / Assert logged between T0 and Ready. The same message repeated is one entry
+    /// with <see cref="count"/> > 1.</summary>
+    [Serializable]
+    public sealed class LoadTimeError
+    {
+        /// <summary>"Error", "Exception" or "Assert" (Unity LogType name).</summary>
+        public string type;
+        /// <summary>Milliseconds since T0, same clock as marks.</summary>
+        public int ms;
+        public string message;
+        /// <summary>Capped stack trace; "" when Unity gave none.</summary>
+        public string stack;
+        public int count;
+    }
+
     /// <summary>One launch: written as one line of <see cref="LoadTimeKit.LogFileName"/> and passed to
     /// <see cref="LoadTimeKit.Ready"/>.</summary>
     [Serializable]
@@ -34,6 +49,10 @@ namespace QA.LoadTimeKit
         /// <summary>Errors / exceptions / asserts logged between T0 and Ready.</summary>
         public int errors;
         public string firstError;
+        /// <summary>Distinct errors in the order first seen, at most LoadTimeKit.MAX_ERRORS.</summary>
+        public List<LoadTimeError> errorList = new List<LoadTimeError>();
+        /// <summary>Distinct error messages that did not fit in <see cref="errorList"/>.</summary>
+        public int errorsDropped;
         /// <summary>1 = first launch since the log file was created (fresh install or cleared data).</summary>
         public int run;
 
