@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.3] - 2026-10-31
+- `Runtime/link.xml` preserves the assembly: with Managed Stripping Level High, IL2CPP builds dropped it because
+  nothing references it (it starts itself through `RuntimeInitializeOnLoadMethod`).
+- `[assembly: AlwaysLinkAssembly]` so UnityLinker processes the assembly at all.
+- Package version follows the repo tag.
+
 ## [0.3.0] - 2026-10-30
 - PlayMode tests (`Tests/Runtime`, assembly `PerfKit.PlayTests`): host created at startup and hidden, `on`/`off` via
   `PerfKit.Enabled`, `MARK`, a real 80 ms spike frame produces `DROP ... scene= ctx=`, `HB` after 5 s. Green on

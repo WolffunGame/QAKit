@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.3] - 2026-10-31
+- `Runtime/link.xml` preserves the assembly: with Managed Stripping Level High, IL2CPP builds dropped it because
+  nothing references it (it starts itself through `RuntimeInitializeOnLoadMethod`).
+- `[assembly: AlwaysLinkAssembly]` so UnityLinker processes the assembly at all.
+- Package version follows the repo tag.
+
 ## [1.0.2] - 2026-10-30
 - `errorList` in the result: every distinct Error / Exception / Assert before Ready with `type`, `ms` since T0,
   `message` (≤ 600 chars), `stack` (≤ 800 chars) and `count`; at most 15 entries, the rest in `errorsDropped`.

@@ -1,0 +1,5 @@
+<!-- The kit starts itself through RuntimeInitializeOnLoadMethod and no game code calls it, so with Managed Stripping
+     Level Medium/High UnityLinker would drop the whole assembly from IL2CPP builds. -->
+<linker>
+  <assembly fullname="PerfKit.Runtime" preserve="all"/>
+</linker>
